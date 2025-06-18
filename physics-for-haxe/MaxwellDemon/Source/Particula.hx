@@ -1,30 +1,23 @@
-package; 
+package;
 
-import nape.phys.Body;
-import nape.phys.BodyType;
-import nape.geom.Vec2;
-import nape.shape.Circle;
+import echo.Body;
+import echo.math.Vector2;
 
-class Particula extends Body
-{
-    public var esCaliente:Bool; // Particula rapida (roja) o lenta (azul)
+class Particula {
+  public var body:Body;
+  public var esCaliente:Bool;
+  
+  public function new(x:Float, y:Float, velocidad:Float, esCaliente:Bool) {
+    this.esCaliente = esCaliente;
     
-    public function new() {x:Float, y:Float, esCaliente:Bool)
-    {
-        super(BodyType.DYNAMIC);
-        
-        this.esCaliente = esCaliente;
-        
-        // Configurar cuerpo físico
-
-        var radio = 5.0;
-        var color = esCaliente ? 0xFF0000 : 0x0000FF; // Rojo para caliente, azul para frío
-        shapes.add(new Circle(radio));
-        position.setxy(x, y);
-        velocity.set(Vec2.weak(velocidad, 0));
-
-        // Propiedades Físicas
-        space.Main.space; // Refencia al espacio fisico global
-    }
+    body = new Body({
+      x: x,
+      y: y,
+      shape: { type: CIRCLE, radius: 5 },
+      velocity: Vector2.from_angle(Math.random() * Math.PI * 2).normalize() * velocidad,
+      material: { elasticity: 0.8 } // Rebote
+    });
     
+    Main.world.add(body); // Añadir al mundo físico
+  }
 }

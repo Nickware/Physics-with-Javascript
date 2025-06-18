@@ -3,23 +3,90 @@ package;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
-import nape.space.Space;
-import nape.phys.Body;
-import nape.geom.Vec2;
+import echo.Body;
+import echo.World;
+import echo.math.Vector2;
 
-class Main extends Sprite
-{
-	public static var space:Space;
-	private var particulas:Array<Particula> = [];
-	private var puertaAbierta:Bool = false;
-	private var temperaturaIzq:Float = 0.0;
-	private var temperaturaDer:Float = 0.0;
-
-	public function new()
-	{
-		super();
-		inicializarFisica();
-		crearUI();
-		inicializarSimulacion();
-	}
+class Main extends Sprite {
+  public static var world:World; // Reemplaza space de Nape
+  private var particulas:Array<Particula> = [];
+  private var puertaAbierta:Bool = false;
+  private var temperaturaIzq:Float = 0;
+  private var temperaturaDer:Float = 0;
+  
+  public function new() {
+    super();
+    inicializarFisica();
+    crearUI();
+    iniciarSimulacion();
+  }
+  
+  private function inicializarFisica():Void {
+    world = new World({ gravity_x: 0, gravity_y: 0 }); // Sin gravedad
+  }
+  
+  private function crearUI():Void {
+    // Dibujar cámaras (igual que antes)
+    graphics.lineStyle(2, 0x000000);
+    graphics.drawRect(50, 50, 300, 300); // Cámara izquierda
+    graphics.drawRect(400, 50, 300, 300); // Cámara derecha
+    
+    // Botón para abrir/cerrar puerta
+    var botonPuerta = new Sprite();
+    botonPuerta.graphics.beginFill(0x00FF00);
+    botonPuerta.graphics.drawRect(350, 175, 50, 50);
+    botonPuerta.addEventListener(MouseEvent.CLICK, togglePuerta);
+    addChild(botonPuerta);
+  }
+  
+  private function togglePuerta(e:MouseEvent):Void {
+    puertaAbierta = !puertaAbierta;
+    // Aquí podrías añadir lógica para habilitar/deshabilitar colisiones en la puerta
+  }
+  
+  private function iniciarSimulacion():Void {
+    // Crear partículas iniciales
+    for (i in 0...20) {
+      var velocidad = Math.random() * 4 + 2; // 2-6 unidades/seg
+      var esCaliente = (velocidad > 4);
+      var particula = new Particula(
+        Math.random() * 250 + 100, // Posición X aleatoria en cámara izquierda
+        Math.random() * 250 + 100, // Posición Y aleatoria
+        velocidad,
+        esCaliente
+      );
+      particulas.push(particula);
+    }
+    
+    addEventListener(Event.ENTER_FRAME, actualizar);
+  }
+  
+  private function actualizar(e:Event):Void {
+    world.step(1/60); // Actualizar física (equivalente a space.step)
+    
+    // Calcular temperaturas
+    temperaturaIzq = calcularTemperatura(true);
+    temperaturaDer = calcularTemperatura(false);
+    
+    // Dibujar partículas
+    graphics.clear();
+    for (particula in particulas) {
+      graphics.beginFill(particula.esCaliente ? 0xFF0000 : 0x0000FF);
+      graphics.drawCircle(particula.body.x, particula.body.y, 5);
+    }
+  }
+  
+  private function calcularTemperatura(izquierda:Bool):Float {
+    var suma = 0.0;
+    var contador = 0;
+    
+    for (particula in particulas) {
+      if ((izquierda && particula.body.x < 350) || (!izquierda && particula.body.x >= 350)) {
+        suma += particula.body.velocity.length * particula.body.velocity.length; // lengthSquared
+        contador++;
+      }
+    }
+    
+    return (contador > 0) ? suma / contador : 0;
+  }
 }
