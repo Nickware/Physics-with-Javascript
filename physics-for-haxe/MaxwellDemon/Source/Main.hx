@@ -8,7 +8,7 @@ import echo.World;
 import echo.math.Vector2;
 
 class Main extends Sprite {
-  public static var world:World; // Reemplaza space de Nape
+  public static var world:World; // Reemplazando space de Nape
   private var particulas:Array<Particula> = [];
   private var puertaAbierta:Bool = false;
   private var temperaturaIzq:Float = 0;
@@ -22,11 +22,16 @@ class Main extends Sprite {
   }
   
   private function inicializarFisica():Void {
-    world = new World({ gravity_x: 0, gravity_y: 0 }); // Sin gravedad
+  world = new World({
+    width: 800,  // Ancho
+    height: 600, // Alto
+    gravity_x: 0, 
+    gravity_y: 0
+    });
   }
   
   private function crearUI():Void {
-    // Dibujar cámaras (igual que antes)
+    // Dibujar cámaras
     graphics.lineStyle(2, 0x000000);
     graphics.drawRect(50, 50, 300, 300); // Cámara izquierda
     graphics.drawRect(400, 50, 300, 300); // Cámara derecha
@@ -41,7 +46,7 @@ class Main extends Sprite {
   
   private function togglePuerta(e:MouseEvent):Void {
     puertaAbierta = !puertaAbierta;
-    // Aquí podrías añadir lógica para habilitar/deshabilitar colisiones en la puerta
+    // Este bloque debe ser completado. Añadir lógica para habilitar/deshabilitar colisiones en la puerta
   }
   
   private function iniciarSimulacion():Void {
@@ -62,7 +67,7 @@ class Main extends Sprite {
   }
   
   private function actualizar(e:Event):Void {
-    world.step(1/60); // Actualizar física (equivalente a space.step)
+    world.step(1/60); // Actualizar física 
     
     // Calcular temperaturas
     temperaturaIzq = calcularTemperatura(true);
