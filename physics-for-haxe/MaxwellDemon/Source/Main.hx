@@ -21,6 +21,7 @@ class Main extends Sprite {
     iniciarSimulacion();
   }
   
+  // tamaño del area de simulación
   private function inicializarFisica():Void {
   world = new World({
     width: 800,  // Ancho
