@@ -2,11 +2,11 @@
 
 **Descripción del repositorio**
 
-Este repositorio está dedicado a la implementación de simulaciones físicas utilizando JavaScript, Actioscript y Haxe, ideal para juegos, animaciones y visualizaciones interactivas en la web.
+Este repositorio contiene simulaciones físicas utilizando JavaScript, Actioscript y Haxe, ideal para juegos, animaciones y visualizaciones interactivas en la web.
 
 ---
 
-## ¿Qué encontrarás aquí?
+## ¿Qué encontrará aquí?
 
 - **Simulaciones de física básica** (movimiento, gravedad, colisiones)
 - **Ejemplos prácticos** en 2D (coordenadas x, y) y simulaciones sencillas
@@ -16,15 +16,24 @@ Este repositorio está dedicado a la implementación de simulaciones físicas ut
 ## ¿Para quién es este repositorio?
 
 - **Desarrolladores web** interesados en agregar efectos físicos realistas a sus aplicaciones
-- **Estudiantes y entusiastas** que quieren aprender física aplicada a la programación
-- **Creadores de juegos y animaciones** en JavaScript
+- **Estudiantes y entusiastas** que quieren aplicar conceptos de física mediante el lenguaje de JavaScript
+- **Creadores de juegos y animaciones** que busquen una perspectiva fenomenologica a través de la física empleando JavaScript
 
 ## Ejemplos de uso
 
-Simula el movimiento de objetos bajo la gravedad, colisiones simples, y experimenta con diferentes fuerzas y restricciones.
+- Conceptos básicos de física Las leyes que rigen el movimiento
+- Gravedad, órbitas y cohetes
+- Fuerzas de contacto y de fluidos
+- Fuerzas restauradoras: resortes y oscilaciones
+- Fuerzas centrípetas: movimiento rotacional
+- Fuerzas de largo alcance Colisiones
+- Sistemas de partículas
+- Objetos extendidos
+- Esquemas de integración numérica, precisión y escala
+- Hacer física en proyectos de simulación 3D
 
 ---
 
-**Inspirado en libros como "Physics for JavaScript Games, Animation, and Simulations" y bibliotecas como Traer Physics.**
+**Inspirado en el texto "Physics for JavaScript Games, Animation, and Simulations".**
 
 ---
