@@ -3,96 +3,121 @@ package;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
+import openfl.text.TextField;
 import echo.Body;
 import echo.World;
 import echo.math.Vector2;
+import echo.util.Debug;
 
 class Main extends Sprite {
-  public static var world:World; // Reemplazando space de Nape
-  private var particulas:Array<Particula> = [];
+  public static var world:World;
+  public static var caja:Boundary; // Cambiado a público estático
+  public static var particulas:Array<Particula>;
+  private var puerta:Body;
+  private var demonio = new Demonio(); // Inicialización directa
   private var puertaAbierta:Bool = false;
-  private var temperaturaIzq:Float = 0;
-  private var temperaturaDer:Float = 0;
-  
+  private var infoText:TextField;
+
   public function new() {
     super();
-    inicializarFisica();
+    inicializarMundo();
     crearUI();
-    iniciarSimulacion();
-  }
-  
-  // tamaño del area de simulación
-  private function inicializarFisica():Void {
-  world = new World({
-    width: 800,  // Ancho
-    height: 600, // Alto
-    gravity_x: 0, 
-    gravity_y: 0
-    });
-  }
-  
-  private function crearUI():Void {
-    // Dibujar cámaras
-    graphics.lineStyle(2, 0x000000);
-    graphics.drawRect(50, 50, 300, 300); // Cámara izquierda
-    graphics.drawRect(400, 50, 300, 300); // Cámara derecha
-    
-    // Botón para abrir/cerrar puerta
-    var botonPuerta = new Sprite();
-    botonPuerta.graphics.beginFill(0x00FF00);
-    botonPuerta.graphics.drawRect(350, 175, 50, 50);
-    botonPuerta.addEventListener(MouseEvent.CLICK, togglePuerta);
-    addChild(botonPuerta);
-  }
-  
-  private function togglePuerta(e:MouseEvent):Void {
-    puertaAbierta = !puertaAbierta;
-    // Este bloque debe ser completado. Añadir lógica para habilitar/deshabilitar colisiones en la puerta
-  }
-  
-  private function iniciarSimulacion():Void {
-    // Crear partículas iniciales
-    for (i in 0...20) {
-      var velocidad = Math.random() * 4 + 2; // 2-6 unidades/seg
-      var esCaliente = (velocidad > 4);
-      var particula = new Particula(
-        Math.random() * 250 + 100, // Posición X aleatoria en cámara izquierda
-        Math.random() * 250 + 100, // Posición Y aleatoria
-        velocidad,
-        esCaliente
-      );
-      particulas.push(particula);
-    }
-    
+    crearCaja();
+    crearPuerta();
+    crearParticulas(20);
     addEventListener(Event.ENTER_FRAME, actualizar);
   }
-  
-  private function actualizar(e:Event):Void {
-    world.step(1/60); // Actualizar física 
-    
-    // Calcular temperaturas
-    temperaturaIzq = calcularTemperatura(true);
-    temperaturaDer = calcularTemperatura(false);
-    
-    // Dibujar partículas
-    graphics.clear();
-    for (particula in particulas) {
-      graphics.beginFill(particula.esCaliente ? 0xFF0000 : 0x0000FF);
-      graphics.drawCircle(particula.body.x, particula.body.y, 5);
-    }
+
+  private function inicializarMundo():Void {
+    world = new World({
+      width: 800,
+      height: 600,
+      gravity_x: 0,
+      gravity_y: 0
+    });
   }
+
+  private function crearUI():Void {
+    var boton = new Sprite();
+    boton.graphics.beginFill(0x00FF00);
+    boton.graphics.drawRect(350, 550, 100, 30);
+    boton.addEventListener(MouseEvent.CLICK, function(_) {
+      puertaAbierta = !puertaAbierta;
+      boton.graphics.clear();
+      boton.graphics.beginFill(puertaAbierta ? 0xFF0000 : 0x00FF00);
+      boton.graphics.drawRect(350, 550, 100, 30);
+    });
+    addChild(boton);
+
+    infoText = new TextField();
+    infoText.x = 10;
+    infoText.y = 10;
+    infoText.width = 300;
+    addChild(infoText);
+  }
+
+  private function crearCaja():Void {
+    caja = new Boundary(world.width, world.height);
+  }
+
+  private function crearPuerta():Void {
+  puerta = new Body({
+    x: world.width / 2,
+    y: world.height / 2,
+    shape: {
+      type: "rect",
+      width: 10,
+      height: world.height - 100
+    },
+    material: { elasticity: 0.5 },
+    kinematic: true
+  });
   
-  private function calcularTemperatura(izquierda:Bool):Float {
-    var suma = 0.0;
-    var contador = 0;
-    
-    for (particula in particulas) {
-      if ((izquierda && particula.body.x < 350) || (!izquierda && particula.body.x >= 350)) {
-        suma += particula.body.velocity.length * particula.body.velocity.length; // lengthSquared
-        contador++;
+  world.add(puerta);
+
+  // Sistema de colisiones para Echo 4.2.3
+  puerta.onCollide = function(other:Body) {
+    for (p in Main.particulas) {
+      if (p.body == other) {
+        if (puertaAbierta) {
+          var fuerza = p.esCaliente ? -150 : 150;
+          other.velocity.x = fuerza;
+          demonio.medirParticula(p);
+        }
+        break;
       }
     }
+  };
+}
+
+  private function calcularEntropia():Float {
+    var sum = 0.0;
+    for (p in particulas) {
+      var v = p.body.velocity.length;
+      sum += v * v * (v > 0 ? Math.log(v) : 0);
+    }
+    return sum / particulas.length;
+  }
+
+  private function actualizar(e:Event):Void {
+    world.step(1/60);
     
-    return (contador > 0) ? suma / contador : 0;
+    graphics.clear();
+    graphics.lineStyle(2, 0x000000);
+    graphics.drawRect(0, 0, world.width, world.height);
+
+    for (p in particulas) {
+      p.update();
+      graphics.beginFill(p.esCaliente ? 0xFF0000 : 0x0000FF);
+      graphics.drawCircle(p.body.x, p.body.y, 5);
+    }
+
+    var entropia = calcularEntropia();
+    infoText.text = 'Entropía: ${formatNum(entropia, 2)}\nEnergía demonio: ${formatNum(demonio.energiaConsumida, 2)} J';
+  }
+
+  private function formatNum(value:Float, decimals:Int):String {
+    var mult = Math.pow(10, decimals);
+    return Std.string(Math.round(value * mult) / mult);
   }
 }

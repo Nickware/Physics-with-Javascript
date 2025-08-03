@@ -892,7 +892,7 @@ ApplicationMain.main = function() {
 };
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
-	app.meta.h["build"] = "8";
+	app.meta.h["build"] = "12";
 	app.meta.h["company"] = "Company Name";
 	app.meta.h["file"] = "MaxwellDemon";
 	app.meta.h["name"] = "MaxwellDemon";
@@ -54598,7 +54598,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 493602;
+	this.version = 127101;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
