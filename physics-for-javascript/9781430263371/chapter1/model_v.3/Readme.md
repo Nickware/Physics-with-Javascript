@@ -20,15 +20,15 @@ Una simulación interactiva de una bola en caída libre que **rebota, se desliza
 
 ## Cómo usarlo
 
-1. **Agrega un `<canvas>` en tu HTML** con `id="canvas"`:
+1. **Agregar un `<canvas>` en tu HTML** con `id="canvas"`:
    
    ```html
    <canvas id="canvas" width="800" height="400"></canvas>
    ```
    
-2. **Incluye este script** después del elemento canvas o dentro de un bloque `<script>` al final del `<body>`.
+2. **Incluir este script** después del elemento canvas o dentro de un bloque `<script>` al final del `<body>`.
 
-3. **Personaliza fácilmente**:
+3. **Personalizar fácilmente**:
    - `radius`: tamaño de la bola.
    - `color`: color de relleno (formato CSS válido).
    - `g`: intensidad de la gravedad.

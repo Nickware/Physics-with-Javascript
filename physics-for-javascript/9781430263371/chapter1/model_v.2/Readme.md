@@ -15,13 +15,13 @@ Una sencilla pero efectiva simulación de una bola que rebota dentro de un lienz
 
 ## Cómo usarlo
 
-1. **Incluye un elemento `<canvas>` en tu HTML** con `id="canvas"`:
+1. **Incluir un elemento `<canvas>` en tu HTML** con `id="canvas"`:
    
    ```html
    <canvas id="canvas" width="800" height="400"></canvas>
    ```
    
-2. **Asegúrate de que el script se ejecute después de que la página cargue** (el `window.onload = init` ya lo maneja).
+2. **Asegúrarse de que el script se ejecute después de que la página cargue** (el `window.onload = init` ya lo maneja).
 
 3. **Personaliza fácilmente**:
    
