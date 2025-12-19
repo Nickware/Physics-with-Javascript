@@ -1,5 +1,7 @@
-**Haxe** es un lenguaje de programación de **alto nivel, fuertemente tipado y multiplataforma** que se destaca por su capacidad de **compilar a múltiples lenguajes objetivo**. 
-Fue creado por **Nicolas Cannasse** en 2005 y desde entonces ha ganado popularidad, especialmente en el desarrollo de juegos y aplicaciones web.
+# Haze
+
+Es un lenguaje de programación de alto nivel, fuertemente tipado y multiplataforma que se destaca por su capacidad de compilar a múltiples lenguajes objetivo. 
+Fue creado por Nicolas Cannasse en 2005 y desde entonces ha ganado popularidad, especialmente en el desarrollo de juegos y aplicaciones web.
 
 ---
 
@@ -45,14 +47,14 @@ Fue creado por **Nicolas Cannasse** en 2005 y desde entonces ha ganado popularid
    - **Flixel**, **Stencyl** y **Heaps** son motores de juego basados en Haxe.
 
 2. **Aplicaciones web**
-   - Puedes compilar Haxe a JavaScript para aplicaciones frontend.
-   - Frameworks como **hxWidgets** o integración con React (vía **hxgenjs**) permiten desarrollo web moderno.
+   - Se puede compilar Haxe a JavaScript para aplicaciones frontend.
+   - Frameworks como **hxWidgets** o integración con React (vía **hxgenjs**) permiten el desarrollo web moderno.
 
 3. **Servidores y aplicaciones de backend**
    - Compilación a PHP, Python, C#, Java o Node.js permite usar Haxe en el backend.
 
 4. **Aplicaciones móviles y de escritorio**
-   - Con OpenFL o Kha, puedes compilar a iOS, Android, Windows, macOS, Linux, etc.
+   - Con OpenFL o Kha, puede compilar para iOS, Android, Windows, macOS, Linux, etc.
 
 ---
 
@@ -92,16 +94,18 @@ Este código se puede compilar a JavaScript, Python, C++, etc., y funcionará en
 ### Desventajas
 
 - Menos popular que otros lenguajes (menos recursos, menos desarrolladores).
-- Curva de aprendizaje si no estás familiarizado con macros o metaprogramación.
+- Curva de aprendizaje si no se está familiarizado con macros o metaprogramación.
 - Algunos targets están más maduros que otros (por ejemplo, C++ y JS están muy bien soportados, otros menos).
 
 ---
 
 ### Conclusión
 
-Haxe es una opción poderosa si buscas **escribir código una vez y desplegarlo en múltiples plataformas**, especialmente en **desarrollo de juegos** o aplicaciones que requieran alta portabilidad. Aunque no es tan mainstream como JavaScript o Python, ofrece un nivel de flexibilidad y control que pocos lenguajes pueden igualar.
+Haxe es una opción poderosa si buscas escribir código una vez y desplegarlo en múltiples plataformas, especialmente en el desarrollo de juegos o aplicaciones que requieran alta portabilidad. Aunque no es tan mainstream como JavaScript o Python, ofrece un nivel de flexibilidad y control que pocos lenguajes pueden igualar.
 
-¡Claro! A continuación te explico paso a paso cómo **instalar, configurar y ejecutar Haxe** en **Ubuntu o Debian**, junto con **OpenFL** para poder desarrollar aplicaciones y juegos (como el ejemplo de la pelota que rebota) y compilarlos a múltiples plataformas (HTML5, Linux, etc.).
+# Instalar Haxe paso a paso en Linux
+
+Paso a paso cómo instalar, configurar y ejecutar Haxe en Ubuntu o Debian, junto con OpenFL para poder desarrollar aplicaciones y juegos (como el ejemplo de la pelota que rebota) y compilarlos para múltiples plataformas (HTML5, Linux, etc.).
 
 ---
 
@@ -223,9 +227,9 @@ cd BouncingBall
 
 ### 6.2. Reemplazar `Source/Main.hx` con el código
 
-Editar `Source/Main.hx` y pega el código del ejemplo de **BouncingBall** que se compartío antes.
+Editar `Source/Main.hx` y pega el código del ejemplo de **BouncingBall** que se compartió antes.
 
-> Asegúrarse de tener también `Ball.hx` en la misma carpeta `Source/`.
+> Asegurarse de tener también `Ball.hx` en la misma carpeta `Source/`.
 
 ---
 
@@ -255,7 +259,7 @@ openfl run linux
 sudo apt-get install -y build-essential libgl1-mesa-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libopenal-dev libudev-dev
 ```
 
-Luego volver a intentar `openfl run linux`.
+Luego, vuelva a intentar `openfl run linux`.
 
 ---
 
@@ -307,9 +311,9 @@ haxelib run openfl setup
 
 ---
 
-## ¡Listo!
+## En resumen
 
-Ahora tiene:
+Ahora se tiene:
 - Haxe instalado
 - OpenFL y Lime listos
 - Capacidad de crear juegos 2D

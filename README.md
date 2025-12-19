@@ -2,7 +2,7 @@
 
 **Descripción del repositorio**
 
-Este repositorio contiene simulaciones físicas utilizando JavaScript, Actioscript y Haxe, ideal para juegos, animaciones y visualizaciones interactivas en la web.
+Este repositorio contiene simulaciones físicas utilizando JavaScript, ActionScript y Haxe, ideal para juegos, animaciones y visualizaciones interactivas en la web.
 
 ---
 

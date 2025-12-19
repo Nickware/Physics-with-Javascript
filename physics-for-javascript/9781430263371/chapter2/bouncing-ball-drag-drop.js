@@ -1,3 +1,10 @@
+//Este script en JavaScript crea una animación interactiva dentro de un elemento <canvas> donde una pelota azul puede moverse y rebotar bajo el efecto de la gravedad simulada. 
+//	Al iniciar, se define un objeto Ball con posición, velocidad, tamaño y color. La función principal onEachStep actualiza en cada ciclo la posición de la pelota aplicando una aceleración vertical hacia abajo (g = 0.1) 
+//	y gestionando las colisiones con el borde inferior del lienzo, haciendo que rebote y pierda parte de su energía.
+
+//Además, el script permite la interacción del usuario con el ratón: al presionar y arrastrar dentro del lienzo, la pelota sigue el movimiento del cursor, y al soltarla, vuelve a moverse libremente bajo la gravedad. 
+//Esto se logra mediante los eventos mousedown, mousemove y mouseup, que activan o desactivan el arrastre. El resultado es una simulación sencilla y visualmente clara de un objeto sometido a la gravedad con comportamiento físico básico.
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d'); 
 

@@ -1,3 +1,9 @@
+//Este script en JavaScript dibuja y anima una pelota en movimiento dentro de un elemento <canvas>, aplicándole un comportamiento físico sencillo. Al iniciar, 
+//se crea un objeto Ball con un radio, color y posición inicial definidos, además de una velocidad horizontal constante. Una función programada para ejecutarse 60 veces por segundo actualiza la posición del objeto en el lienzo, generando una animación fluida.
+
+//El código simula la acción de la gravedad mediante una aceleración vertical (g = 0.1) que hace que la pelota caiga y rebote al tocar el borde inferior del lienzo, perdiendo parte de su velocidad en cada impacto. 
+// Cuando la pelota sale por el borde derecho, reaparece por el lado izquierdo, creando un efecto de movimiento continuo. De esta manera, combina física básica con animación gráfica para lograr una simulación simple pero visualmente atractiva.
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d'); 
 
