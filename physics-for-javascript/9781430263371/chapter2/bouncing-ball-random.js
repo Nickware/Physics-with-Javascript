@@ -1,3 +1,11 @@
+// Bola que rebota con pausa al presionar el mouse
+// Este código crea una animación simple de una pelota que rebota que se detiene cuando se presiona el mouse sobre el lienzo y se reanuda cuando se suelta el mouse.
+// Configurar el lienzo y el contexto
+// Definir propiedades de la bola y parámetros físicos.
+// Inicializa la animación al cargar la ventana
+// Iniciar y detener funciones de animación.
+//Actualiza la posición de la pelota y maneja la lógica de rebote
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d'); 
 

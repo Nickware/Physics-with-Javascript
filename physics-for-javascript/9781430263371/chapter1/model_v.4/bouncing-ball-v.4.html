@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulación de Bola con Materiales Físicos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    canvas {
+      border: 2px solid #333;
+      background: #fff;
+      margin-top: 10px;
+    }
+    .controls {
+      margin: 15px 0;
+    }
+    select {
+      padding: 6px 12px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simulación de diferentes tipos de bolas rebotando</h1>
+  <div class="controls">
+    <label for="materialSelect">Selecciona el material de la bola:</label>
+    <select id="materialSelect">
+      <option value="tennis">Bola de tenis</option>
+      <option value="billiard">Bola de billar</option>
+      <option value="bowling">Bola de bolos</option>
+      <option value="basketball">Balón de baloncesto</option>
+      <option value="golf">Bola de golf</option>
+    </select>
+  </div>
+  <canvas id="canvas" width="800" height="400"></canvas>
+  <script src="bouncing-ball-v.4.js"></script>  
+</body>
+</html>
