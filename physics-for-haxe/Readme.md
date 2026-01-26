@@ -161,7 +161,7 @@ haxelib install openfl
 haxelib install lime
 ```
 
-Luego, instala las herramientas globales:
+Luego, instalar las herramientas globales:
 
 ```bash
 haxelib run openfl setup
@@ -174,14 +174,14 @@ haxelib run lime setup
 
 ## 4. Configurar acceso a lime y openfl desde terminal
 
-Para poder usar `openfl` y `lime` directamente en la terminal, crea alias o enlázalos:
+Para poder usar `openfl` y `lime` directamente en la terminal, crear alias o enlázalos:
 
 ```bash
 haxelib run openfl setup -install
 haxelib run lime setup -install
 ```
 
-O agrega al PATH:
+O agregar al PATH:
 
 ```bash
 echo 'export PATH="$PATH:$HOME/.haxelib/bin"' >> ~/.bashrc
@@ -194,7 +194,7 @@ source ~/.bashrc
 
 ## 5. Probar la instalación
 
-Crea un pequeño programa Haxe:
+Crear un pequeño programa Haxe:
 
 ### `Hello.hx`
 ```haxe
