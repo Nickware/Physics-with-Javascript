@@ -9,7 +9,7 @@ JavaScript es un lenguaje de programación interpretado, de alto nivel y multipa
 
 ## Historia básica
 
-- Fue creado en 1995 por Brendan Eich para el navegador Netscape, y estandarizado como ECMAScript por ECMA en 1997.[6][7]
+- Fue creado en 1995 por Brendan Eich para el navegador Netscape y estandarizado como ECMAScript por ECMA en 1997.[6][7]
 - Desde ECMAScript 5 (2009) y, sobre todo, ECMAScript 6 (2015), el lenguaje incorporó muchas características modernas como clases, módulos, arrow functions y promesas.[8][6]
 
 ## Dónde se usa
@@ -25,7 +25,7 @@ JavaScript es un lenguaje de programación interpretado, de alto nivel y multipa
 ## Características clave del lenguaje
 
 - Manejo nativo de asincronía mediante callbacks, promesas y `async/await`, útil para operaciones de red y E/S sin bloquear.[1][5]
-- Amplias APIs para trabajar con DOM, texto, fechas, estructuras de datos y expresiones regulares, especialmente en entornos web.[3][1]
+- Amplías APIs para trabajar con DOM, texto, fechas, estructuras de datos y expresiones regulares, especialmente en entornos web.[3][1]
 
 # Variantes tendencias de javascript en la actualidad y sus empleos
 
@@ -98,21 +98,8 @@ JavaScript hoy se centra en frameworks de interfaces modernas, arquitecturas ful
 [19](https://launchschool.com/books/javascript/read/introduction)
 [20](https://en.wikibooks.org/wiki/JavaScript/History_of_JavaScript)
 
-
-
-
 # Apress Source Code
 
 This repository accompanies [*Physics for JavaScript Games, Animation, and Simulations*](http://www.apress.com/9781430263371) by Adrian Dobre and Dev Ramtal (Apress, 2014).
 
 ![Cover image](9781430263371.jpg)
-
-Download the files as a zip using the green button, or clone the repository to your machine using Git.
-
-## Releases
-
-Release v1.0 corresponds to the code in the published book, without corrections or updates.
-
-## Contributions
-
-See the file Contributing.md for more information on how you can contribute to this repository.
