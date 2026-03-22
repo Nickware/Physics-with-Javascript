@@ -1,3 +1,10 @@
+// 1. Canvas initialization, context, and global variables
+// 2. Definition of aircraft parameters (mass, areas, inertia)
+// 3. Environmental parameters (gravity, air density)
+// 4. Aerodynamic coefficients (drag, lift)
+// 5. Surface controls (ailerons, elevators, rudder)
+// 6. Animation loop with physics and rendering
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d'); 
 var width = window.innerWidth, height = window.innerHeight;
