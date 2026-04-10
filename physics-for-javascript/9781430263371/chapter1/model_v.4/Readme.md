@@ -41,7 +41,7 @@ Una simulación avanzada de una bola que **rebota, se desliza y se detiene de fo
 
 ---
 
-##  ¿Por qué es educativo?
+##  Modelo educativo
 
 Este modelo enseña conceptos clave de física:
 - Energía cinética y potencial
