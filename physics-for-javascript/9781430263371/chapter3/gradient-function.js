@@ -1,4 +1,11 @@
-﻿var canvas = document.getElementById('canvas');
+﻿// This example calculates the gradient function of a parabola using the forward and centered methods. The forward method is less accurate than the centered method, but it is easier to implement. The centered method is more accurate, but it requires more calculations.
+// The code uses a Graph class to plot the function and its gradient. The Graph class is not included in this code snippet, but it is available in the book's source code. The Graph class provides methods for drawing grids, axes, and plotting functions.
+// The code calculates the function values and the gradient values at a set of points, and then plots them on the canvas. The function is a simple parabola, f(x) = x^2, and the gradient is calculated using the formula (f(x1) - f(x2)) / (x1 - x2), where x1 and x2 are two points on the x-axis. The forward method uses points that are numGrad apart, while the centered method uses points that are numGrad apart on either side of the point of interest.
+// The code also includes comments to explain the steps and the calculations. The resulting plot will show the parabola in red, the forward gradient in blue, and the centered gradient in green. The gradients will be less accurate near the edges of the plot, where there are fewer points to calculate the gradient from.
+// Note: The Graph class and its methods (drawgrid, drawaxes, plot) are assumed to be defined elsewhere in the codebase, as they are not included in this snippet.
+// Example 3.3: Gradient function of a parabola using the forward and centered methods
+// The forward method is less accurate than the centered method, but it is easier to implement. The centered method is more accurate, but it requires more calculations.
+var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d'); 
 
 var numPoints=1001;
