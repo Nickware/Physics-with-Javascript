@@ -116,17 +116,11 @@ Haxe se puede instalar desde los repositorios oficiales o desde el repositorio m
 ### Opción recomendada: Usar el repositorio oficial de Haxe (más actualizado)
 
 ```bash
-# 1. Agregar la llave GPG
+# 1. Agregar e instalar Haxe
+sudo add-apt-repository ppa:haxe/releases -y
 sudo apt-get update
-sudo apt-get install -y curl
-curl https://haxe.org/download/key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/haxe.gpg > /dev/null
-
-# 2. Agregar el repositorio de Haxe
-echo "deb [signed-by=/usr/share/keyrings/haxe.gpg] https://haxe.org/website-content/downloads/latest/linux debian main" | sudo tee /etc/apt/sources.list.d/haxe.list
-
-# 3. Actualizar e instalar Haxe y Neko (opcional)
-sudo apt-get update
-sudo apt-get install -y haxe
+sudo apt-get install haxe -y
+mkdir ~/haxelib && haxelib setup ~/haxelib
 ```
 
 > Esto instala **Haxe** y también `haxelib` (el gestor de librerías).
@@ -277,6 +271,10 @@ Luego abrir VS Code e instalar las extensiones:
 - **CodeLLDB** (si depuras)
 
 ---
+
+### 9. Configurar entorno de desarrollo Haxe en Deepin 25 mediante Distrobox
+
+Para comenzar con el despliegue del sistema, consulta la [Guía de Instalación detallada](install_deepin.md).
 
 ## Resumen de comandos útiles
 
