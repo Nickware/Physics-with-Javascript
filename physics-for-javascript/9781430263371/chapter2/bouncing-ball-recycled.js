@@ -1,3 +1,10 @@
+// Bouncing Ball Recycled
+// This code creates a bouncing ball that is recycled when it goes off the canvas.
+// The ball is drawn on an HTML5 canvas and has properties for position, radius, color, and velocity.
+// The ball's position is updated on each step of the animation, and it bounces off the ground when it hits it.
+// When the ball goes beyond the right edge of the canvas, it is recycled by resetting its position and velocity.
+// The ball is drawn on the canvas using the drawBall function, which takes a canvas context as an argument.
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d'); 
 
