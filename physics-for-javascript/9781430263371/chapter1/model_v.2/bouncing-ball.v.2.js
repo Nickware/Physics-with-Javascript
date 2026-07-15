@@ -1,3 +1,7 @@
+// Bouncing Ball Simulation
+// This code simulates a ball bouncing under the influence of gravity on an HTML5 canvas.
+// The ball will bounce when it hits the bottom of the canvas and will wrap around when it goes off the right edge.
+
 var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d'); 
 
