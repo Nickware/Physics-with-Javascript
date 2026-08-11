@@ -14,6 +14,11 @@ import echo.Body;
  * posible que Particula.update() deje de usar wraparound periódico y
  * en su lugar confíe en que echo resuelva el rebote físico contra
  * estas paredes (elasticity: 1.0).
+ *
+ * CORRECCIÓN ADICIONAL: `type` se pasa como el enum abstracto RECT,
+ * sin comillas. echo.data.Types.ShapeType es `enum abstract ... {RECT;
+ * CIRCLE; POLYGON;}`, y Haxe lo resuelve por inferencia de tipo sin
+ * necesidad de import — pasar el string "rect" nunca fue válido.
  */
 class Boundary {
   public var walls:Array<Body>;
@@ -38,7 +43,7 @@ class Boundary {
       x: x,
       y: y,
       shape: {
-        type: "rect",
+        type: RECT,
         width: w,
         height: h
       },

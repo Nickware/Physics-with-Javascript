@@ -19,22 +19,24 @@ class Main extends Sprite {
   private var puertaAbierta:Bool = false;
   private var infoText:TextField;
 
-  // CAMBIO vs versión original: antes onCollide sumaba energía en
-  // CADA frame que la partícula seguía tocando la puerta (comportamiento
-  // "stay" de echo), inflando el conteo. Ahora se registra qué
-  // partículas ya fueron "medidas" en el cruce actual, y solo se
-  // vuelve a contar cuando la partícula se aleja lo suficiente de la
-  // puerta como para considerar que terminó ese cruce.
-  private var enContactoConPuerta:Map<Particula, Bool> = new Map();
-  private static inline final UMBRAL_SALIDA:Float = 20; // px desde el centro de la puerta
-
+  // CAMBIO vs versión original: `Body` de echo nunca tuvo un campo
+  // `onCollide` (no existe en el código fuente de la librería, en
+  // ninguna versión publicada). La forma real de escuchar colisiones
+  // es `world.listen(a, b, { enter, stay, exit })`. Usamos `enter`,
+  // que dispara UNA sola vez al iniciar el contacto -> esto resuelve
+  // el doble conteo de energía de forma nativa, sin necesidad de un
+  // Map de debounce manual como en el intento anterior.
+  //
+  // Por eso también se invierte el orden: crearParticulas() debe
+  // correr ANTES de crearPuerta(), porque el listener necesita la
+  // lista de Bodies de las partículas para armarse.
   public function new() {
     super();
     inicializarMundo();
     crearUI();
     crearCaja();
-    crearPuerta();
     crearParticulas(20);
+    crearPuerta();
     addEventListener(Event.ENTER_FRAME, actualizar);
   }
 
@@ -75,7 +77,7 @@ class Main extends Sprite {
       x: world.width / 2,
       y: world.height / 2,
       shape: {
-        type: "rect",
+        type: RECT,
         width: 10,
         height: world.height - 100
       },
@@ -85,20 +87,24 @@ class Main extends Sprite {
 
     world.add(puerta);
 
-    // Sistema de colisiones para Echo 4.2.3
-    puerta.onCollide = function(other:Body) {
-      for (p in Main.particulas) {
-        if (p.body == other) {
-          if (puertaAbierta && !enContactoConPuerta.exists(p)) {
+    // Un único listener cubre la puerta contra TODAS las partículas
+    // (BodyOrBodies acepta un Body o un Array<Body>). `enter` se
+    // dispara una sola vez por cruce, así que no hace falta
+    // debounce manual: la propia librería ya evita el doble conteo.
+    var cuerpos = [for (p in Main.particulas) p.body];
+    world.listen(puerta, cuerpos, {
+      enter: function(a:Body, b:Body, data) {
+        if (!puertaAbierta) return;
+        for (p in Main.particulas) {
+          if (p.body == b) {
             var fuerza = p.esCaliente ? -150 : 150;
-            other.velocity.x = fuerza;
+            b.velocity.x = fuerza;
             demonio.medirParticula(p);
-            enContactoConPuerta.set(p, true);
+            break;
           }
-          break;
         }
       }
-    };
+    });
   }
 
   private function crearParticulas(n:Int):Void {
@@ -111,15 +117,6 @@ class Main extends Sprite {
       var p = new Particula(x, y, velocidad, esCaliente);
       world.add(p.body);
       particulas.push(p);
-    }
-  }
-
-  private function liberarContactosLejanos():Void {
-    var puertaX = world.width / 2;
-    for (p in particulas) {
-      if (enContactoConPuerta.exists(p) && Math.abs(p.body.x - puertaX) > UMBRAL_SALIDA) {
-        enContactoConPuerta.remove(p);
-      }
     }
   }
 
@@ -139,7 +136,6 @@ class Main extends Sprite {
 
   private function actualizar(e:Event):Void {
     world.step(1 / 60);
-    liberarContactosLejanos();
 
     graphics.clear();
     graphics.lineStyle(2, 0x000000);

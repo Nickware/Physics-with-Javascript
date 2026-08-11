@@ -2,7 +2,6 @@ package;
 
 import echo.Body;
 import echo.math.Vector2;
-import echo.data.ShapeType;
 
 /**
  * CAMBIO vs versión original:
@@ -19,6 +18,17 @@ import echo.data.ShapeType;
  * (si a alta velocidad la partícula llegara a atravesar una pared en
  * un único step, se recoloca dentro de la caja sin alterar su
  * velocidad, en vez de perderla o reflejarla artificialmente).
+ *
+ * CORRECCIÓN ADICIONAL 1: se quitó `import echo.data.ShapeType` (ese
+ * módulo no existe; el enum vive en echo.data.Types) y se usa CIRCLE
+ * sin calificar — Haxe lo resuelve por el tipo esperado del campo
+ * `shape.type`, sin necesidad de import.
+ *
+ * CORRECCIÓN ADICIONAL 2: `material` no es un campo de ShapeOptions,
+ * es un campo de BodyOptions. En la versión original estaba anidado
+ * dentro del shape (`shapes: [{ ..., material: {...} }]`), lo cual
+ * ni siquiera compila contra la librería real. Se movió un nivel
+ * arriba, al Body.
  */
 class Particula {
   public var body:Body;
@@ -33,13 +43,13 @@ class Particula {
     body = new Body({
       x: x,
       y: y,
+      material: {
+        elasticity: 0.8,
+        density: 0.5
+      },
       shapes: [{
-        type: ShapeType.CIRCLE,
-        radius: RADIO,
-        material: {
-          elasticity: 0.8,
-          density: 0.5
-        }
+        type: CIRCLE,
+        radius: RADIO
       }]
     });
 
