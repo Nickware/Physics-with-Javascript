@@ -4,20 +4,31 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.text.TextField;
+import openfl.Lib;
 import echo.Body;
 import echo.World;
-import echo.math.Vector2;
-import echo.util.Debug;
 
 class Main extends Sprite {
+  private static inline var WIDTH:Float = 800;
+  private static inline var HEIGHT:Float = 600;
+  private static inline var MAX_DT:Float = 0.05;
+  private static inline var PARTICLE_COUNT:Int = 20;
+  private static inline var DOOR_X:Float = WIDTH / 2;
+
   public static var world:World;
   public static var caja:Boundary;
   public static var particulas:Array<Particula>;
 
   private var puerta:Body;
-  private var demonio = new Demonio();
+  private var demonio:Demonio;
   private var puertaAbierta:Bool = false;
   private var infoText:TextField;
+  private var buttonLabel:TextField;
+  private var previousTime:Int;
+  private var separacion:Float = 0;
+  private var entropiaBits:Float = 0;
+  private var calientesIzquierda:Int = 0;
+  private var friasDerecha:Int = 0;
 
   // CAMBIO vs versión original: `Body` de echo nunca tuvo un campo
   // `onCollide` (no existe en el código fuente de la librería, en
@@ -35,15 +46,17 @@ class Main extends Sprite {
     inicializarMundo();
     crearUI();
     crearCaja();
-    crearParticulas(20);
+    demonio = new Demonio(300);
+    crearParticulas(PARTICLE_COUNT);
     crearPuerta();
+    previousTime = Lib.getTimer();
     addEventListener(Event.ENTER_FRAME, actualizar);
   }
 
   private function inicializarMundo():Void {
     world = new World({
-      width: 800,
-      height: 600,
+      width: WIDTH,
+      height: HEIGHT,
       gravity_x: 0,
       gravity_y: 0
     });
@@ -51,20 +64,28 @@ class Main extends Sprite {
 
   private function crearUI():Void {
     var boton = new Sprite();
-    boton.graphics.beginFill(0x00FF00);
+    boton.graphics.beginFill(0x00AA00);
     boton.graphics.drawRect(350, 550, 100, 30);
     boton.addEventListener(MouseEvent.CLICK, function(_) {
-      puertaAbierta = !puertaAbierta;
-      boton.graphics.clear();
-      boton.graphics.beginFill(puertaAbierta ? 0xFF0000 : 0x00FF00);
-      boton.graphics.drawRect(350, 550, 100, 30);
+      setPuertaAbierta(!puertaAbierta, boton);
     });
     addChild(boton);
+
+    buttonLabel = new TextField();
+    buttonLabel.x = 350;
+    buttonLabel.y = 555;
+    buttonLabel.width = 100;
+    buttonLabel.height = 24;
+    buttonLabel.text = "Abrir puerta";
+    buttonLabel.selectable = false;
+    addChild(buttonLabel);
 
     infoText = new TextField();
     infoText.x = 10;
     infoText.y = 10;
-    infoText.width = 300;
+    infoText.width = 500;
+    infoText.height = 100;
+    infoText.selectable = false;
     addChild(infoText);
   }
 
@@ -74,37 +95,26 @@ class Main extends Sprite {
 
   private function crearPuerta():Void {
     puerta = new Body({
-      x: world.width / 2,
+      x: DOOR_X,
       y: world.height / 2,
-      shape: {
-        type: RECT,
-        width: 10,
-        height: world.height - 100
-      },
+      shape: { type: RECT, width: 10, height: world.height - 100 },
       material: { elasticity: 0.5 },
       kinematic: true
     });
-
     world.add(puerta);
+  }
 
-    // Un único listener cubre la puerta contra TODAS las partículas
-    // (BodyOrBodies acepta un Body o un Array<Body>). `enter` se
-    // dispara una sola vez por cruce, así que no hace falta
-    // debounce manual: la propia librería ya evita el doble conteo.
-    var cuerpos = [for (p in Main.particulas) p.body];
-    world.listen(puerta, cuerpos, {
-      enter: function(a:Body, b:Body, data) {
-        if (!puertaAbierta) return;
-        for (p in Main.particulas) {
-          if (p.body == b) {
-            var fuerza = p.esCaliente ? -150 : 150;
-            b.velocity.x = fuerza;
-            demonio.medirParticula(p);
-            break;
-          }
-        }
-      }
-    });
+  private function setPuertaAbierta(abierta:Bool, boton:Sprite):Void {
+    puertaAbierta = abierta;
+    if (puertaAbierta) {
+      world.remove(puerta);
+    } else {
+      world.add(puerta);
+    }
+    boton.graphics.clear();
+    boton.graphics.beginFill(puertaAbierta ? 0xCC0000 : 0x00AA00);
+    boton.graphics.drawRect(350, 550, 100, 30);
+    buttonLabel.text = puertaAbierta ? "Cerrar puerta" : "Abrir puerta";
   }
 
   private function crearParticulas(n:Int):Void {
@@ -120,35 +130,102 @@ class Main extends Sprite {
     }
   }
 
-  // NOTA: esto es un proxy inspirado en el integrando de la función H
-  // de Boltzmann (v^2 * ln v), NO la entropía de Shannon/Boltzmann
-  // formal sobre una distribución. Sirve como indicador relativo de
-  // "desorden" cinético, pero no es directamente comparable con el
-  // E = n * kT * ln(2) teórico del documento de referencia.
-  private function calcularEntropia():Float {
-    var sum = 0.0;
+  private function actualizarMetricas():Void {
+    var calientesDerecha = 0;
+    var friasIzquierda = 0;
+    calientesIzquierda = 0;
+    friasDerecha = 0;
+
     for (p in particulas) {
-      var v = p.body.velocity.length;
-      sum += v * v * (v > 0 ? Math.log(v) : 0);
+      var estaIzquierda = p.body.x < DOOR_X;
+      if (p.esCaliente) {
+        if (estaIzquierda) calientesIzquierda++ else calientesDerecha++;
+      } else if (estaIzquierda) {
+        friasIzquierda++;
+      } else {
+        friasDerecha++;
+      }
     }
-    return sum / particulas.length;
+
+    separacion = (calientesIzquierda + friasDerecha) / particulas.length;
+    entropiaBits = entropiaCondicional(
+      calientesIzquierda,
+      friasIzquierda,
+      calientesDerecha,
+      friasDerecha
+    );
+  }
+
+  private function entropiaCondicional(
+    calientesIzquierda:Int,
+    friasIzquierda:Int,
+    calientesDerecha:Int,
+    friasDerecha:Int
+  ):Float {
+    var total = particulas.length;
+    var entropia = 0.0;
+    entropia += entropiaLado(calientesIzquierda, friasIzquierda) / total;
+    entropia += entropiaLado(calientesDerecha, friasDerecha) / total;
+    return entropia / Math.log(2);
+  }
+
+  private function entropiaLado(calientes:Int, frias:Int):Float {
+    var total = calientes + frias;
+    if (total == 0) return 0;
+    var resultado = 0.0;
+    if (calientes > 0) {
+      var pCalientes = calientes / total;
+      resultado -= pCalientes * Math.log(pCalientes);
+    }
+    if (frias > 0) {
+      var pFrias = frias / total;
+      resultado -= pFrias * Math.log(pFrias);
+    }
+    return resultado;
   }
 
   private function actualizar(e:Event):Void {
-    world.step(1 / 60);
+    var currentTime = Lib.getTimer();
+    var dt = Math.min((currentTime - previousTime) / 1000, MAX_DT);
+    previousTime = currentTime;
+    if (dt <= 0) dt = 1 / 60;
+    for (p in particulas) p.previousX = p.body.x;
+    world.step(dt);
 
     graphics.clear();
     graphics.lineStyle(2, 0x000000);
     graphics.drawRect(0, 0, world.width, world.height);
+    graphics.lineStyle(1, 0xAAAAAA);
+    graphics.moveTo(DOOR_X, 0);
+    graphics.lineTo(DOOR_X, HEIGHT);
 
     for (p in particulas) {
       p.update();
+      if (puertaAbierta && p.cruzo(DOOR_X)) controlPostCruce(p);
       graphics.beginFill(p.esCaliente ? 0xFF0000 : 0x0000FF);
       graphics.drawCircle(p.body.x, p.body.y, 5);
     }
 
-    var entropia = calcularEntropia();
-    infoText.text = 'Entropía (proxy): ${formatNum(entropia, 2)}\nEnergía demonio: ${formatNum(demonio.energiaConsumida, 2)} J';
+    if (!puertaAbierta) {
+      graphics.lineStyle(3, 0x444444);
+      graphics.drawRect(DOOR_X - 5, 50, 10, HEIGHT - 100);
+    }
+
+    actualizarMetricas();
+    infoText.text = 'Separación correcta: ${formatNum(separacion * 100, 1)}%\n' +
+      'Entropía de mezcla: ${formatNum(entropiaBits, 3)} bits\n' +
+      'Calientes izquierda: $calientesIzquierda | Frías derecha: $friasDerecha\n' +
+      'Mediciones: ${demonio.mediciones} | Energía: ${demonio.energiaConsumida} J';
+  }
+
+  private function controlPostCruce(p:Particula):Void {
+    var ladoCorrecto = p.esCaliente ? p.body.x < DOOR_X : p.body.x >= DOOR_X;
+    if (ladoCorrecto) {
+      demonio.medirParticula(p);
+      return;
+    }
+    p.body.x = p.esCaliente ? DOOR_X - 12 : DOOR_X + 12;
+    p.body.velocity.x = p.esCaliente ? -Math.abs(p.body.velocity.x) : Math.abs(p.body.velocity.x);
   }
 
   private function formatNum(value:Float, decimals:Int):String {

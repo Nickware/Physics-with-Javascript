@@ -34,11 +34,13 @@ class Particula {
   public var body:Body;
   public var esCaliente:Bool;
   public var velocidadInicial:Float;
+  public var previousX:Float;
   private static inline final RADIO:Float = 5;
 
   public function new(x:Float, y:Float, velocidad:Float, esCaliente:Bool) {
     this.esCaliente = esCaliente;
     this.velocidadInicial = velocidad;
+    this.previousX = x;
 
     body = new Body({
       x: x,
@@ -68,5 +70,12 @@ class Particula {
 
     if (body.y < RADIO) body.y = RADIO;
     else if (body.y > Main.world.height - RADIO) body.y = Main.world.height - RADIO;
+  }
+
+  public function cruzo(x:Float):Bool {
+    var cruzoHaciaDerecha = previousX < x && body.x >= x;
+    var cruzoHaciaIzquierda = previousX >= x && body.x < x;
+    previousX = body.x;
+    return cruzoHaciaDerecha || cruzoHaciaIzquierda;
   }
 }

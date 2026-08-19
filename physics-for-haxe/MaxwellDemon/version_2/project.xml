@@ -9,6 +9,8 @@
 	<haxelib name="openfl" />
 	<haxelib name="echo" />
 	<haxedef name="no-deprecation-warnings" />
+
+	<window width="800" height="600" fps="60" background="#FFFFFF" />
 	
 	<assets path="Assets" rename="assets" />
 	

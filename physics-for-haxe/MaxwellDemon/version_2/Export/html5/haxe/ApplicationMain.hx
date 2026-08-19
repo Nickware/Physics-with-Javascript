@@ -20,7 +20,7 @@ class ApplicationMain
 
 		#if (js && html5)
 		#if (munit || (utest && openfl_enable_utest_legacy_mode))
-		lime.system.System.embed("MaxwellDemon", null, 0, 0);
+		lime.system.System.embed("MaxwellDemon", null, 800, 600);
 		#end
 		#else
 		create(null);
@@ -35,7 +35,7 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
-		app.meta["build"] = "52";
+		app.meta["build"] = "55";
 		app.meta["company"] = "Company Name";
 		app.meta["file"] = "MaxwellDemon";
 		app.meta["name"] = "MaxwellDemon";
@@ -54,14 +54,14 @@ class ApplicationMain
 			element: null,
 			frameRate: 60,
 			#if !web fullscreen: false, #end
-			height: 0,
+			height: 600,
 			hidden: #if munit true #else false #end,
 			maximized: false,
 			minimized: false,
 			parameters: {},
 			resizable: true,
 			title: "MaxwellDemon",
-			width: 0,
+			width: 800,
 			x: null,
 			y: null,
 		};
