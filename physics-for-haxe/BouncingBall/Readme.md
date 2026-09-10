@@ -204,3 +204,23 @@ Este script implementa una simulación sencilla de una **pelota que rebota** uti
 ### **Notas**
 
 - El script es una buena base para aprender animación y física básica en Haxe/OpenFL.
+
+## Ejecutar el proyecto
+
+Requisitos probados:
+
+- Haxe 4.3.6
+- OpenFL 9.5.2
+- Lime 8.3.2
+
+Desde esta carpeta, instala las dependencias y ejecuta el target HTML5:
+
+```bash
+haxelib install openfl
+haxelib run openfl setup
+openfl test html5
+```
+
+La simulación usa el tiempo transcurrido entre fotogramas, rebota contra el
+suelo y los límites laterales, y limita el paso de tiempo para evitar saltos
+excesivos cuando la ventana pierde el foco.
