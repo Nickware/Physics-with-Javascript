@@ -1,5 +1,11 @@
 # Demonio de Maxwell — Haxe/OpenFL + Echo
 
+## Navegación
+
+- [README principal del repositorio](../../../README.md)
+- [README general de Haxe](../../Readme.md)
+- [README de MaxwellDemon](../README.md)
+
 Simulación interactiva del experimento mental de Maxwell (1871): partículas
 "calientes" (rápidas) y "frías" (lentas) en una caja 2D, con una puerta que
 un demonio puede abrir o cerrar para separarlas selectivamente. Esta versión

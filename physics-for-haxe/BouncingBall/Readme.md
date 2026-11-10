@@ -1,3 +1,5 @@
+# Simulación del Rebote de una Partícula
+
 Este tipo de simulación se enmarca en la **mecánica clásica**, específicamente en la **dinámica de partículas** y las **simulaciones físicas discretizadas en el tiempo**. A continuación, se presenta la **base teórica, principios físicos, modelos matemáticos y referencias clave** que sustentan este tipo de simulaciones.
 
 ---
@@ -224,3 +226,10 @@ openfl test html5
 La simulación usa el tiempo transcurrido entre fotogramas, rebota contra el
 suelo y los límites laterales, y limita el paso de tiempo para evitar saltos
 excesivos cuando la ventana pierde el foco.
+
+---
+
+## Navegación
+
+- [Proyecto Haxe](https://haxe.org/)
+- [Repositorio principal](https://github.com/tu_usuario/tu_repositorio)

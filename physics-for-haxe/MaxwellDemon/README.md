@@ -1,5 +1,10 @@
 # Simulación del Demonio de Maxwell: Termodinámica e Información
 
+## Navegación
+
+- [README principal del repositorio](../../README.md)
+- [README general de Haxe](../Readme.md)
+
 ## **Objetivo Principal**  
 Desarrollar una simulación interactiva que:  
  **Replique el experimento mental** de Maxwell (1871): separación de partículas "calientes" (rápidas) y "frías" (lentas) en una caja.  
@@ -106,3 +111,4 @@ class Demonio {
     energiaConsumida += k * Math.log(2); // Landauer
   }
 }
+```

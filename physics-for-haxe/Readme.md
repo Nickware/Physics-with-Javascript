@@ -1,4 +1,10 @@
-# Haze
+# Haxe
+
+## Navegación
+
+- [README principal del repositorio](../README.md)
+- [Physics for JavaScript](../physics-for-javascript/README.md)
+- [Physics for Flash](../physics-for-flash/README.md)
 
 Es un lenguaje de programación de alto nivel, fuertemente tipado y multiplataforma que se destaca por su capacidad de compilar a múltiples lenguajes objetivo. 
 Fue creado por Nicolas Cannasse en 2005 y desde entonces ha ganado popularidad, especialmente en el desarrollo de juegos y aplicaciones web.
