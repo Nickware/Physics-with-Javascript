@@ -1,5 +1,11 @@
 # JavaScript
 
+## Navegación
+
+- [README principal del repositorio](../README.md)
+- [Physics for Flash](../physics-for-flash/README.md)
+- [Haxe](../physics-for-haxe/Readme.md)
+
 JavaScript es un lenguaje de programación interpretado, de alto nivel y multiparadigma, usado principalmente para crear páginas web interactivas tanto en el navegador como en el servidor. Hoy en día es una de las tecnologías esenciales de la web junto con HTML y CSS, y está presente en la gran mayoría de sitios y aplicaciones web modernas.[1][2][3][4]
 
 ## Qué es JavaScript
