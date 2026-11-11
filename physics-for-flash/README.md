@@ -1,5 +1,12 @@
 # Physics for Flash
 
+## Navegación
+
+- [README principal del repositorio](../README.md)
+- [Tecnologías de transición desde Flash Builder](docs/README.md)
+- [Entornos heredados y metodología de migración](docs/entornos-heredados-y-migracion.md)
+- [Contribuciones](contributing.md)
+
 Este directorio contiene el código fuente y los recursos publicados junto al libro *Physics for Flash Games, Animation, and Simulations*, de Adrian Dobre y Dev Ramtal (Apress, 2011). Conserva ejemplos didácticos de física computacional escritos para Adobe Flash: movimiento, fuerzas, colisiones, partículas, cuerpos rígidos y otros temas organizados por capítulos.
 
 Este repositorio es un archivo histórico y educativo. No contiene una biblioteca moderna de física ni debe considerarse una plataforma de producción.
