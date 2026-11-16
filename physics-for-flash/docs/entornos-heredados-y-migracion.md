@@ -1,5 +1,11 @@
 # Entornos heredados y metodología de migración
 
+## Navegación
+
+- [README principal del repositorio](../../README.md)
+- [README de physics-for-flash](../README.md)
+- [Tecnologías de transición desde Flash Builder](README.md)
+
 > Para comparar tecnologías concretas aplicables a los proyectos de Flash Builder, consulta el [README de tecnologías de transición](README.md).
 
 Este documento describe cómo preservar, ejecutar y migrar los ejemplos de ActionScript incluidos en `physics-for-flash/`. El contenido original del repositorio se conserva como archivo histórico y referencia educativa, no como una plataforma activa de producción.
