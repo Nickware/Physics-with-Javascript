@@ -1,5 +1,13 @@
 # Physics with JavaScript, ActionScript and Haxe
 
+## Índice del repositorio
+
+- [JavaScript](physics-for-javascript/README.md)
+- [Flash y ActionScript](physics-for-flash/README.md)
+- [Tecnologías de migración desde Flash](physics-for-flash/docs/README.md)
+- [Entornos heredados y migración](physics-for-flash/docs/entornos-heredados-y-migracion.md)
+- [Haxe](physics-for-haxe/Readme.md)
+
 Colección educativa de ejemplos de física computacional asociados a libros de
 Apress. El repositorio reúne implementaciones en JavaScript, ActionScript y
 Haxe para estudiar movimiento, fuerzas, colisiones, partículas, cuerpos
