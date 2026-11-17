@@ -1,5 +1,7 @@
 # Entornos heredados y metodología de migración
 
+> Para comparar tecnologías concretas aplicables a los proyectos de Flash Builder, consulta el [README de tecnologías de transición](README.md).
+
 Este documento describe cómo preservar, ejecutar y migrar los ejemplos de ActionScript incluidos en `physics-for-flash/`. El contenido original del repositorio se conserva como archivo histórico y referencia educativa, no como una plataforma activa de producción.
 
 > Adobe Flash Player dejó de tener soporte el 31 de diciembre de 2020. Los navegadores modernos no ejecutan `.swf`, por lo que las demostraciones requieren entornos heredados controlados o una migración documentada.
