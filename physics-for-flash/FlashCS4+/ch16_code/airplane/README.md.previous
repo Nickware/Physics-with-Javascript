@@ -1,0 +1,300 @@
+# Proyecto airplane — Flash CS4+ / capítulo 16
+
+Este directorio contiene una simulación tridimensional de vuelo incluida en el capítulo 16 de *Physics for Flash Games, Animation, and Simulations*.
+
+Es una demostración didáctica de cuerpo rígido, aerodinámica simplificada y controles de vuelo. No representa un modelo aerodinámico cuantitativamente válido para diseño real de aeronaves.
+
+## Navegación
+
+- [README principal del repositorio](../../../../README.md)
+
+## Archivos principales
+
+- `Airplane.as`: punto de entrada; crea la geometría, la pista y el avión.
+- `AirplaneMover.as`: controla fuerzas, torques, estados de vuelo, teclado e interfaz.
+- `Road.as`: dibuja la pista como un rectángulo con bandas.
+- `Airplane.fla`: fuente visual y de timeline.
+- `Airplane.swf`: artefacto compilado histórico.
+- `README.pdf`: documentación original incluida con el proyecto.
+- `com/physicscodes/`: clases compartidas para movimiento, fuerzas, partículas, cuerpos rígidos y geometría 3D.
+
+## Arquitectura
+
+El modelo sigue una jerarquía de clases orientada a objetos:
+
+```text
+Mover3D
+  └── ForcerRB3D
+        └── AirplaneMover
+              └── PolyhedronRB
+                    └── RigidBody3D
+                          └── Particle3D
+```
+
+### `Airplane.as`
+
+Crea el avión como `PolyhedronRB` y define:
+
+- Masa: `30000`.
+- Momento de inercia vectorial: aproximadamente `(300000, 100000, 200000)`.
+- Posición inicial: centro de masa `(400, 600, 0)`.
+- Distancia focal: `200`.
+- Velocidad angular y lineal inicial nulas.
+- Una pista ubicada en `(400, 600, 0)`.
+
+También inicia `AirplaneMover` y su temporizador.
+
+### `AirplaneMover.as`
+
+Es la clase principal de dinámica. Calcula:
+
+- Gravedad.
+- Arrastre cuadrático.
+- Empuje.
+- Sustentación del ala.
+- Sustentación y torque de elevadores.
+- Sustentación y torque de alerones.
+- Sustentación y torque del timón.
+- Amortiguamiento angular.
+- Velocidades, posición y altitud mostradas en pantalla.
+
+### `PolyhedronRB.as`
+
+Representa el avión mediante vértices y caras:
+
+- Aplica rotaciones incrementales con `Matrix3D`.
+- Calcula los ejes locales `ix`, `iy` e `iz`.
+- Proyecta vértices con perspectiva.
+- Ordena caras por profundidad.
+- Dibuja el poliedro en 2D sobre el `Stage`.
+
+### `Road.as`
+
+Dibuja la pista con una forma rectangular gris y marcas blancas. No funciona como un modelo físico completo de colisión o fricción.
+
+## Parámetros físicos
+
+Los valores están expresados en unidades didácticas relacionadas con el sistema internacional, aunque no todos están dimensionalmente validados ni calibrados con una aeronave real.
+
+### Avión
+
+- Masa: `30000`.
+- Área principal del ala: `150`.
+- Área del timón vertical: `20`.
+- Área del estabilizador horizontal: `6`.
+- Área de cada alerón: `4`.
+- Distancia cola–centro de masa: `35`.
+- Distancia alerón–centro de masa: `9`.
+
+### Ambiente
+
+- Gravedad: `10`.
+- Densidad del aire: `1.0`.
+- Altura de tierra: `600` píxeles.
+- Amortiguamiento angular: `0.2`.
+
+### Aerodinámica
+
+- Coeficiente de arrastre: `1`.
+- Derivada lineal del coeficiente de sustentación: `5`.
+- Ángulo fijo del ala: `10°`.
+- Sustentación limitada aproximadamente a `20°`.
+- Empuje máximo: `300000`.
+- Incremento de empuje: `10000`.
+
+## Superficies de control
+
+El avión calcula dos ángulos aerodinámicos:
+
+- `alpha`: ángulo de ataque entre la velocidad proyectada en el plano `xy` y el eje longitudinal `ix`.
+- `beta`: ángulo lateral entre la velocidad proyectada en el plano `xz` y el eje `ix`.
+
+Las superficies modifican el comportamiento así:
+
+- Elevadores: producen pitch.
+- Alerones: producen roll.
+- Timón: produce yaw.
+- Empuje: aumenta o reduce la velocidad a lo largo del eje del avión.
+
+## Controles de teclado
+
+| Tecla | Función |
+|---|---|
+| Flecha arriba | Aumentar ángulo de elevadores |
+| Flecha abajo | Disminuir ángulo de elevadores |
+| Flecha izquierda | Desviar alerones hacia un extremo |
+| Flecha derecha | Desviar alerones hacia el otro extremo |
+| Control | Aumentar timón en una dirección |
+| Shift | Aumentar timón en la dirección opuesta |
+| Espacio | Aumentar empuje |
+| Caps Lock + Espacio | Reducir empuje |
+
+La posición y las velocidades se muestran en campos `TextField` dentro del Stage.
+
+## Integración temporal
+
+`Mover3D` utiliza `flash.utils.Timer` y `flash.utils.getTimer()` para calcular `dt` en segundos:
+
+```text
+posición += velocidad × dt
+velocidad += aceleración × dt
+velocidad angular += aceleración angular × dt
+```
+
+En `ForcerRB3D`, la aceleración lineal se obtiene como:
+
+```text
+a = fuerza / masa
+```
+
+La aceleración angular se obtiene dividiendo el torque por el momento de inercia diagonal:
+
+```text
+alpha = torque / I
+```
+
+El ciclo utiliza una integración explícita de Euler, en lugar de un integrador de paso fijo o un Runge-Kutta.
+
+## Renderizado 3D
+
+`PolyhedronRB.updatePolyhedron()`:
+
+1. Añade rotaciones incrementales a `Matrix3D`.
+2. Obtiene los ejes locales del avión.
+3. Transforma los vértices.
+4. Aplica una proyección perspectiva basada en `_fl`.
+5. Ordena las caras por distancia.
+6. Dibuja las caras en profundidad visible.
+
+El resultado es una proyección 3D realizada sobre gráficos 2D de Flash, no una escena administrada por un motor 3D moderno.
+
+## Limitaciones técnicas
+
+- No existe una colisión tridimensional completa con la pista.
+- La posición por debajo del suelo solo elimina la gravedad y no aplica una respuesta física completa.
+- La densidad del aire permanece constante.
+- Los coeficientes de sustentación son lineales y están limitados de forma simplificada.
+- El arrastre es cuadrático, pero no modela una envolvente aerodinámica completa.
+- Los momentos de inercia son aproximados.
+- El modelo asume una matriz de inercia diagonal.
+- El Euler explícito puede acumular error o variar con el rendimiento.
+- El paso temporal depende del reloj real y no está fijado.
+- El aterrizaje, el stall, la pérdida dinámica y el efecto suelo no están modelados.
+- No hay una validación física automatizada.
+- Las unidades visuales son una mezcla de escena 2D, píxeles y parámetros físicos simplificados.
+
+## Comparación con la versión JavaScript
+
+Existe una implementación equivalente en `physics-for-javascript/9781430263371/chapter16/airplane.js`.
+
+La versión JavaScript utiliza:
+
+- Three.js y WebGL.
+- Cubo 3D en lugar del poliedro de Flash.
+- Quaterniones para orientar el avión.
+- Una cámara fija o que sigue al avión.
+- Controles adicionales para cámara y pausa.
+- Coordenadas y convenciones diferentes respecto a Flash.
+- Un término giroscópico en la actualización angular.
+- Áreas y momentos de inercia con valores también documentados de forma didáctica.
+
+La versión Flash y la versión JavaScript no deben compararse solo por su apariencia: pueden diferir en unidades, eje vertical, orientaciones iniciales, coeficientes y tratamiento del tiempo.
+
+## Estrategia de migración
+
+### Ruta recomendada
+
+La migración más adecuada para conservar el contenido didáctico es **TypeScript + Three.js**:
+
+- Three.js sustituye `PolyhedronRB` y `Matrix3D`.
+- TypeScript separa las ecuaciones de la presentación.
+- Una clase de avión representa estado, masa, orientación e inercia.
+- Las funciones aerodinámicas pueden extraerse en módulos independientes.
+- El renderer utiliza un bucle moderno con `requestAnimationFrame`.
+
+Haxe + OpenFL es una alternativa si el objetivo principal es conservar la estructura AS3 y evitar una reescritura completa.
+
+### Separación recomendada
+
+```text
+physics/
+  vectors
+  airplane-state
+  aerodynamics
+  rigid-body
+
+scene/
+  mesh
+  runway
+  camera
+  text
+
+input/
+  keyboard
+  reset
+  pause
+
+app/
+  fixed-timestep loop
+```
+
+### Estado mínimo de la nueva aplicación
+
+- Vector de posición.
+- Vector de velocidad.
+- Cuaternión u orientación equivalente.
+- Velocidad angular.
+- Masa.
+- Tensor de inercia.
+- Ángulos de elevador, alerones y timón.
+- Empuje.
+- Densidad del aire.
+- Tiempo acumulado y paso fijo.
+
+## Prueba piloto
+
+El proyecto debe migrarse por etapas:
+
+1. Extraer vectores y funciones de fuerza sin renderizado.
+2. Crear el modelo con velocidad, empuje y gravedad.
+3. Añadir arrastre.
+4. Añadir sustentación.
+5. Añadir control de superficies.
+6. Añadir torques y rotación.
+7. Reconstruir la pista y el modelo 3D.
+8. Añadir cámara, interfaz y controles.
+
+Casos mínimos:
+
+- Velocidad cero: sin sustentación ni arrastre.
+- Empuje cero y gravedad activa: caída controlada.
+- Empuje igual al arrastre y sustentación igual al peso: estado de vuelo constante aproximado.
+- Elevador neutro: sin torque longitudinal.
+- Alerones simétricos neutros: sin torque de roll.
+- Timón neutro: sin torque de yaw.
+- `dt = 0`: no modificar estado.
+- `dt` grande: verificar límite o rechazo en lugar de salto numérico.
+
+## Criterios de aceptación
+
+Una migración debería cumplir:
+
+- Controles equivalentes al original.
+- Pausa y reinicio explícitos.
+- Paso de tiempo fijo o paso limitado documentado.
+- Orientación estable y sin crecimiento de números inválidos.
+- Sustentación y arrastre reproducibles mediante pruebas.
+- Cierre o interacción consistente con la pista.
+- Sin dependencias de Flash Player.
+- Diferencias visuales y numéricas documentadas.
+- Referencia explícita a los archivos originales `Airplane.as`, `AirplaneMover.as` y `PolyhedronRB.as`.
+
+## Riesgos
+
+- Las convenciones de coordenadas pueden invertir pitch, roll o yaw.
+- Euler explícito puede ser menos estable que un integrador moderno.
+- Los coeficientes históricos no están necesariamente calibrados.
+- El poliedro original puede ser difícil de reutilizar sin reconstruir vértices y caras.
+- El archivo `.fla` puede depender de contenido o configuraciones antiguas.
+- El `.swf` no debe ejecutarse en navegadores modernos.
+- Las unidades visuales históricas pueden confundirse con metros reales.
