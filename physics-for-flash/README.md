@@ -3,7 +3,7 @@
 ## Navegación
 
 - [README principal del repositorio](../README.md)
-- [Tecnologías de transición desde Flash Builder](docs/README.md)
+- [Tecnologías de transición desde Adobe Flash](docs/README.md)
 - [Entornos heredados y metodología de migración](docs/entornos-heredados-y-migracion.md)
 - [Contribuciones](contributing.md)
 
@@ -20,7 +20,7 @@ Este repositorio es un archivo histórico y educativo. No contiene una bibliotec
 - [`LICENSE.txt`](LICENSE.txt): condiciones de licencia.
 - [`contributing.md`](contributing.md): instrucciones originales de contribución.
 - [`docs/entornos-heredados-y-migracion.md`](docs/entornos-heredados-y-migracion.md): hoja de ruta y metodología de migración.
-- [`docs/README.md`](docs/README.md): tecnologías candidatas para migrar proyectos de Flash Builder.
+- [`docs/README.md`](docs/README.md): tecnologías de transición desde Adobe Flash.
 
 Los archivos principales son:
 
@@ -89,7 +89,7 @@ Una migración debe separar la física del renderizado y probar primero el model
 
 Consulta:
 
-- [`docs/README.md`](docs/README.md): comparación de tecnologías para transitar desde Flash Builder.
+- [`docs/README.md`](docs/README.md): comparación de tecnologías para transitar desde Adobe Flash.
 - [`docs/entornos-heredados-y-migracion.md`](docs/entornos-heredados-y-migracion.md): pruebas, riesgos y hoja de ruta.
 - [`contributing.md`](contributing.md): instrucciones de contribución.
 
