@@ -1,4 +1,4 @@
-# Tecnologías para la transición desde Flash Builder
+# Tecnologías para la transición desde Adobe Flash
 
 ## Navegación
 
@@ -6,22 +6,29 @@
 - [README de physics-for-flash](../README.md)
 - [Guía de entornos heredados y migración](entornos-heredados-y-migracion.md)
 
-Este documento propone tecnologías actuales para migrar el código de [`FlashBuilder/`](../FlashBuilder/) sin perder el carácter didáctico de sus simulaciones físicas. La migración debe separar las ecuaciones, el estado, la entrada y el renderizado antes de reemplazar el runtime.
+Este documento propone tecnologías actuales para migrar las fuentes de [`FlashBuilder/`](../FlashBuilder/), [`FlashCS3/`](../FlashCS3/) y [`FlashCS4+/`](../FlashCS4+/) sin perder el carácter didáctico de sus simulaciones físicas. La migración debe separar las ecuaciones, el estado, la entrada y el renderizado antes de reemplazar el runtime.
 
 La estrategia completa y los criterios de aceptación aparecen en [`entornos-heredados-y-migracion.md`](entornos-heredados-y-migracion.md).
 
-## Características de Flash Builder
+## Características de las fuentes Flash
 
-Los proyectos contienen principalmente:
+Las tres familias del repositorio contienen principalmente:
 
-- Clases ActionScript 3 organizadas en paquetes como `motion`, `objects`, `forces` y `display`.
+- Clases y scripts ActionScript.
 - Objetos con posición, velocidad, aceleración y fuerza.
 - Ecuaciones propias de cada capítulo.
-- Renderizado con objetos gráficos, vectores, texto y eventos.
-- Archivos de proyecto heredados y metadatos locales de Eclipse/Flash Builder.
+- Renderizado con objetos gráficos, vectores, texto y timelines.
+- Archivos `.fla` que pueden combinar arte visual, eventos y código enlazado.
+- Artefactos `.swf` utilizados como referencia o resultado histórico.
 - Ejemplos 2D y 3D con modelos, cámaras y transformaciones propias.
 
-Los metadatos de `.metadata/` no son portables. Las fuentes `.as` y el comportamiento observable deben utilizarse como especificación.
+Diferencias por familia:
+
+- `FlashBuilder/` incluye proyectos y metadatos de Eclipse/Flash Builder.
+- `FlashCS3/` agrupa ejemplos bajo carpetas `ch*_code/` y contiene `.as`, `.fla` y `.swf` asociados.
+- `FlashCS4+/` conserva la organización por capítulos, pero puede usar API, estructura de proyecto o timelines diferentes.
+
+Los metadatos `.metadata/` no son portables. Las fuentes `.as`, `.fla` y el comportamiento observable deben utilizarse como especificación.
 
 ## Opciones tecnológicas
 
@@ -38,25 +45,17 @@ Los metadatos de `.metadata/` no son portables. Las fuentes `.as` y el comportam
 
 ### Haxe + OpenFL
 
-Es la opción con mayor continuidad conceptual para código AS3. Haxe tiene una sintaxis similar y tipado estático; OpenFL ofrece gráficos y API inspiradas en Flash.
+Es la opción con mayor continuidad conceptual para código AS3. Haxe ofrece tipado estático y una sintaxis cercana a ActionScript, mientras que OpenFL proporciona API inspiradas en Flash.
 
-Ventajas:
+Ventajas: conserva clases y jerarquías, exporta a HTML5 y permite migrar varias demos con cambios moderados.
 
-- Conserva clases y jerarquías con cambios moderados.
-- Puede exportar a HTML5 y otras plataformas.
-- Permite migrar varias demos sin introducir otro paradigma.
-
-Limitaciones:
-
-- Las API Flash no tienen siempre equivalencia exacta.
-- Timelines, eventos y recursos deben verificarse.
-- Lime, OpenFL y el compilador requieren versiones compatibles.
+Limitaciones: las API Flash no tienen siempre equivalencia exacta y deben verificarse timelines, eventos, recursos y versiones de Lime/OpenFL.
 
 Ya existe una base Haxe/OpenFL en [`physics-for-haxe/`](../../physics-for-haxe/).
 
 ### TypeScript + Canvas 2D
 
-Es una opción recomendada para trasladar primero los capítulos 2D. Tipado y pruebas facilitan validar vectores, integradores, fuerzas y colisiones.
+Recomendada como primera migración 2D. Tipado y pruebas facilitan validar vectores, integradores, fuerzas y colisiones.
 
 Arquitectura sugerida:
 
@@ -73,33 +72,37 @@ Esta separación permite probar el modelo físico sin navegador y reutilizarlo e
 
 ### JavaScript + Canvas
 
-Es apropiada para prototipos rápidos o una sola demostración. No necesita compilación ni dependencias, pero conviene evolucionar hacia módulos y TypeScript si crece el proyecto.
+Adecuada para prototipos rápidos o una sola demostración. No requiere compilación ni dependencias, pero conviene evolucionar hacia módulos y TypeScript si el proyecto crece.
+
+### Adobe Animate como etapa intermedia
+
+Animate puede publicar timelines y arte seleccionados como HTML5 Canvas/JavaScript. Es útil cuando el resultado visual `.fla` es más valioso que la lógica AS3, pero no convierte automáticamente las ecuaciones físicas ni elimina las dependencias de timelines.
+
+Debe compararse con una reescritura si se necesita separar el modelo físico del código generado.
 
 ### PixiJS
 
-PixiJS ofrece una escena gráfica moderna y buen rendimiento para sprites y partículas. Puede sustituir el renderizado 2D, pero no sustituye el motor físico ni debe contener las ecuaciones principales.
+PixiJS ofrece una escena gráfica moderna y buen rendimiento para sprites y partículas. Sustituye el renderizado 2D, pero no valida el modelo físico ni contiene por sí mismo las ecuaciones principales.
 
 ### Phaser
 
-Phaser proporciona escenas, entrada, audio, sprites y ciclo de juego. Es apropiado si se desea una colección interactiva o un juego educativo.
+Phaser proporciona escenas, entrada, audio, sprites y ciclo de juego. Es apropiado para una colección interactiva o un juego educativo.
 
-El motor físico de Phaser no debe sustituir automáticamente las integraciones originales sin validar unidades, colisiones y pasos de tiempo.
+El motor físico no debe sustituir automáticamente las integraciones originales sin validar unidades, colisiones y pasos de tiempo.
 
 ### Three.js
 
-Three.js permite reconstruir escenas 3D, cámaras, luces y transformaciones en el navegador. La migración debe comenzar por las ecuaciones vectoriales y luego construir la representación visual.
+Three.js permite reconstruir escenas 3D, cámaras, luces y transformaciones. La migración debe comenzar por las ecuaciones vectoriales y luego construir la representación visual.
 
 ### Apache Royale
 
-Apache Royale permite mantener parte del código ActionScript/MXML y compilarlo a HTML5/JavaScript. Es útil para aplicaciones grandes con una interfaz Flex considerable.
-
-No convierte automáticamente API retiradas de Flash ni timelines y no es necesario para demos pequeñas.
+Apache Royale mantiene parte del código ActionScript/MXML y compila a HTML5/JavaScript. Es útil para aplicaciones grandes con interfaces Flex importantes, pero no es necesario para demos físicas pequeñas ni convierte automáticamente API retiradas o timelines.
 
 ### Godot
 
-Godot puede utilizarse si los ejemplos se convertirán en una aplicación completa 2D/3D con escenas, entrada, audio y exportación multiplataforma. GDScript o C# pueden expresar la lógica moderna.
+Godot permite convertir los ejemplos en una aplicación completa 2D/3D con escenas, entrada, audio y exportación multiplataforma. GDScript o C# expresan la lógica moderna.
 
-Puede cambiar el comportamiento si se sustituye la integración propia por el motor de física sin verificar el modelo.
+Sustituir la integración propia por el motor de física puede cambiar el comportamiento, por lo que debe hacerse tras fijar pruebas y valores de referencia.
 
 ## Mapeo de conceptos
 
@@ -141,17 +144,17 @@ Implementar Canvas, SVG o WebGL después de fijar el comportamiento físico. Cad
 
 ## Prueba piloto
 
-Migrar primero una escena simple de `FlashBuilder/`, como una pelota rebotando o un movimiento parabólico.
+Migrar primero una escena simple disponible en las tres familias, como `BouncingBall` o un movimiento parabólico. Conviene elegir primero la variante cuyo código sea más sencillo y comparar después CS3, CS4+ y Flash Builder.
 
 Debe cumplir:
 
-- Conserva estado inicial y controles principales.
-- Usa paso fijo o documenta el paso dependiente del tiempo.
-- Tiene pruebas para límites y colisiones.
-- Permite pausar y reiniciar.
-- Dibuja la escena con Canvas o SVG.
-- No contiene dependencias de Flash en el modelo físico.
-- Incluye valores de referencia obtenidos del original o reconstruidos desde el código.
+- Conservar estado inicial y controles principales.
+- Usar paso fijo o documentar el paso dependiente del tiempo.
+- Tener pruebas para límites y colisiones.
+- Permitir pausar y reiniciar.
+- Dibujar la escena con Canvas o SVG.
+- No contener dependencias de Flash en el modelo físico.
+- Incluir valores de referencia obtenidos del original o reconstruidos desde el código.
 
 Si la prueba pasa, los siguientes capítulos pueden reutilizar vectores, integradores y utilidades comunes.
 
