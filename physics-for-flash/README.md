@@ -1,86 +1,98 @@
-# Actionscript
+# Physics for Flash
 
-ActionScript es un lenguaje de programación orientado a objetos basado en ECMAScript, diseñado para crear contenido interactivo y aplicaciones sobre la plataforma Adobe Flash y, posteriormente, Adobe AIR. Tuvo un papel central en la web rica en animaciones y juegos antes de la retirada definitiva de Flash en 2020.[1][2][3]
+Este directorio contiene el código fuente y los recursos publicados junto al libro *Physics for Flash Games, Animation, and Simulations*, de Adrian Dobre y Dev Ramtal (Apress, 2011). Su finalidad es conservar ejemplos didácticos de física computacional escritos para Adobe Flash: movimiento, fuerzas, colisiones, partículas, cuerpos rígidos y otros temas organizados por capítulos.
 
-## Origen e historia
+Este repositorio es un archivo histórico y educativo. No contiene una biblioteca moderna de física ni debe considerarse una plataforma de producción.
 
-- Fue creado por Macromedia para controlar animaciones y añadir interactividad en Flash; más tarde continuó su desarrollo bajo Adobe tras la adquisición de Macromedia.[4][1]
-- Evolucionó desde ActionScript 1.0 (2000, tipado laxo y herencia por prototipos) hasta ActionScript 3.0 (2006, reestructuración completa con nueva máquina virtual y fuerte enfoque en POO).[5][1]
+## Contenido del repositorio
 
-## Características del lenguaje
+- [`FlashBuilder/`](FlashBuilder/): proyectos organizados por capítulo para Flash Builder/Eclipse. Incluye fuentes ActionScript, archivos de proyecto y una carpeta `.metadata/` generada por el IDE.
+- [`FlashCS3/`](FlashCS3/): versiones de los ejemplos para Adobe Flash CS3, organizadas en carpetas `ch1_code/` a `ch16_code/`.
+- [`FlashCS4+/`](FlashCS4+/): variantes adaptadas a Flash CS4 y versiones posteriores, organizadas en las mismas carpetas por capítulo.
+- [`9781430236740.jpg`](9781430236740.jpg): portada del libro.
+- [`LICENSE.txt`](LICENSE.txt): condiciones de licencia del código publicado.
+- [`contributing.md`](contributing.md): instrucciones originales de contribución.
+- [`docs/entornos-heredados-y-migracion.md`](docs/entornos-heredados-y-migracion.md): inventario ampliado, hoja de ruta y metodología de migración.
 
-- Usa sintaxis similar a JavaScript, pero con mayor énfasis en clases, interfaces y tipos en su versión 3, lo que lo hace adecuado para aplicaciones más grandes y estructuradas.[6][2]
-- Está orientado a eventos y se integraba de forma nativa con gráficos vectoriales, audio, video y animaciones de Flash, facilitando la creación de experiencias multimedia complejas.[7][1]
+Los archivos principales son:
 
-## Usos principales
+- `.as`: clases y scripts de ActionScript.
+- `.fla`: fuentes visuales y timelines editables.
+- `.swf`: artefactos compilados y exportados.
+- Archivos de proyecto del IDE: metadatos, rutas y configuración necesarios para reconstruir una variante histórica.
 
-- Desarrollo de juegos 2D, banners interactivos, reproductores de video, aplicaciones web ricas (RIA) y interfaces de usuario para productos multimedia.[1][7]
-- También se utilizó con Adobe AIR para aplicaciones de escritorio y móviles, y con middleware como Scaleform GFx para interfaces de videojuegos y HUDs.[8][1]
+Las carpetas CS3, CS4+ y Flash Builder pueden representar implementaciones distintas o dependientes de SDK e IDE específicos. Deben tratarse como familias históricas separadas, no como variantes necesariamente intercambiables.
 
-## Situación actual
+## Estado heredado de Flash
 
-- El soporte oficial de Adobe Flash Player terminó el 31 de diciembre de 2020, lo que provocó la desaparición de ActionScript del desarrollo web moderno.[9][3]
-- Hoy su uso es muy reducido y se limita a mantenimiento de aplicaciones heredadas y algunos entornos específicos de juegos que todavía dependen de contenido en Flash/AS3.[10][9]
+ActionScript evolucionó desde versiones de tipado flexible hasta ActionScript 3.0, una plataforma orientada a clases y eventos que se utilizaba con Flash Player y Adobe AIR. Adobe Flash Player dejó de tener soporte oficial el 31 de diciembre de 2020, y los navegadores modernos ya no ejecutan archivos `.swf`.
 
-# Variantes actuales que han sustituido o reemplazado parcialmente el lenguaje actionscript
+Por ello:
 
-Las variantes modernas que han reemplazado parcialmente a ActionScript se centran en tecnologías web abiertas como HTML5, Canvas y WebGL con JavaScript/TypeScript, manteniendo el enfoque en animaciones interactivas, juegos 2D y aplicaciones multimedia ricas sin plugins. Herramientas como **Haxe** y **Apache Royale** permiten migraciones directas desde código AS3, compilando a JavaScript para navegadores actuales.[1][2][3][4]
+- Los archivos `.swf` no deben ejecutarse en navegadores modernos.
+- Los proyectos `.fla` requieren versiones históricas compatibles de Adobe Flash Professional/Animate.
+- Flash Builder y sus SDK asociados deben considerarse un entorno de archivo.
+- Las exportaciones, librerías, códecs y servicios externos pueden estar retirados o resultar incompatibles.
 
-## JavaScript con librerías Canvas/WebGL
+No se recomienda instalar Flash Player en un navegador normal actual. Cualquier ejecución histórica debería aislarse en una máquina virtual o entorno controlado sin datos sensibles.
 
-- **EaselJS** (parte de CreateJS) y **PixiJS** replican directamente la API de ActionScript 3 para animaciones, sprites, eventos de mouse y timelines, facilitando conversiones de proyectos Flash a HTML5 Canvas.[5][6]
-- **Three.js** y **Babylon.js** usan WebGL para gráficos 3D avanzados, sustituyendo capacidades multimedia complejas de Flash con rendimiento nativo en navegador.[3][1]
+## Cómo examinar o ejecutar los ejemplos
 
-## Frameworks de juegos 2D
+### Examinar el código
 
-- **Phaser** y **Construct** (con JavaScript export) ofrecen un flujo similar al de Flash: edición visual de escenas, timelines y scripting simple para juegos interactivos, con soporte para física, partículas y audio.[2][7]
-- **Godot** con GDScript (sintaxis similar a Python, pero con ecos de AS) permite el desarrollo visual de juegos 2D/3D y exporta a web vía HTML5, ideal para sucesores de Flash.[1][2]
+Los archivos `.as` pueden abrirse directamente en cualquier editor de texto. Muchos ejemplos relacionan clases físicas, objetos visuales y eventos del timeline, por lo que conviene revisar también el `.fla` correspondiente y los recursos usados por el proyecto.
 
-## Migración directa y sucesores espirituales
+Para ubicar un tema:
 
-- **Haxe** + **OpenFL** (o HaxeFlixel): Haxe es un lenguaje de alto nivel que compila a JS, con sintaxis similar a AS3, diseñado explícitamente como reemplazo de Flash para juegos y apps multimedia.[7][2]
-- **Apache Royale** (evolución de Apache Flex): Permite escribir en ActionScript/MXML y compilar directamente a HTML5/JS, manteniendo compatibilidad con código heredado de Flex/AS3.[4][8]
+1. Selecciona una familia: `FlashBuilder`, `FlashCS3` o `FlashCS4+`.
+2. Abre la carpeta del capítulo que corresponda.
+3. Busca la clase `.as`, el archivo `.fla` o el artefacto `.swf` principal.
+4. Conserva las rutas relativas y los recursos asociados.
 
-## Otras alternativas declarativas
+### Abrir una fuente visual
 
-- **QML** (con Qt): Lenguaje declarativo para interfaces fluidas y animadas, similar al MXML de Flex, que se integra con C++ y exporta a web vía Qt WebAssembly.[9]
-- Adobe **Animate CC** ofrece conversión automática de proyectos AS3 a HTML5 Canvas/JavaScript, generando código equivalente para timelines y eventos.[10][11]
+Los archivos `.fla` requieren un IDE histórico compatible. Antes de abrirlos:
 
-Estas opciones priorizan la interoperabilidad web moderna, rendimiento nativo y ausencia de plugins, cubriendo el 90% de los casos de uso de ActionScript como animaciones y juegos interactivos.[12][3]
+- Comprueba la versión de Flash/Animate utilizada por el proyecto.
+- Revisa rutas relativas y bibliotecas enlazadas.
+- Haz una copia antes de convertir o guardar con una versión moderna.
+- No reemplaces el proyecto original al exportarlo.
 
-[1](https://stackshare.io/actionscript/alternatives)
-[2](https://www.reddit.com/r/learnprogramming/comments/18dy0xq/what_is_the_closest_thing_to_flash_actionscript_2/)
-[3](https://geekpedia.com/future-of-actionscript-web-development/)
-[4](https://jsonviewer.ai/adobe-apache-flex-flash-air-status-alternatives/)
-[5](https://stackoverflow.com/questions/24485117/converting-as3-to-html5-canvas)
-[6](https://stackoverflow.com/questions/24485117/converting-as3-to-html5-canvas)
-[7](https://www.nilebits.com/company/technologies/actionscript/)
-[8](https://apache.github.io/royale-docs/features/as3)
-[9](https://slashdot.org/software/ActionScript/)
-[10](https://www.youtube.com/watch?v=Z3qOwZyP68E)
-[11](https://helpx.adobe.com/animate/kb/as-to-html5.html)
-[12](https://altereos.com/en/migrating-from-flex-to-javascript/)
-[13](https://www.reddit.com/r/learnprogramming/comments/98m0jv/is_actionscript_still_used/)
-[14](https://www.geekpedia.com/future-of-actionscript/)
-[15](https://www.slashdot.org/software/ActionScript/)
-[16](https://www.timetoast.com/timelines/evolution-action-script)
-[17](https://skylightcreative.com.au/tonygillan/actionscript-fundamentals/)
-[18](https://books.openfl.org/as3-conversion-guide/history.html)
-[19](https://www.linkedin.com/advice/0/what-current-trends-challenges-actionscript-animation)
-[20](https://programminglanguages.info/language/actionscript/)
+### Compilar proyectos
 
-# Apress Source Code
+Los proyectos históricos pueden requerir una combinación concreta de Flash Builder, SDK de ActionScript, JDK y sistema operativo. Los metadatos de `FlashBuilder/.metadata/` son información local del IDE y no deben interpretarse como configuración portable.
 
-This repository accompanies [*Physics for Flash Games, Animation, and Simulations*](http://www.apress.com/9781430236740) by Adrian Dobre and Dev Ramtal (Apress, 2011).
+No existe en este repositorio un proceso único y moderno de compilación válido para todos los ejemplos. Las dependencias, SDK y versiones deben documentarse por proyecto antes de intentar una ejecución.
 
-![Cover image](9781430236740.jpg)
+### Ver un resultado `.swf`
 
-Download the files as a zip using the green button, or clone the repository to your machine using Git.
+Los navegadores actuales no ofrecen soporte para `.swf`. El archivo puede conservarse como referencia visual o como artefacto histórico, pero no debe considerarse una demo ejecutable compatible con plataformas modernas.
 
-## Releases
+Para migraciones o propuestas de ejecución actual, consulta la [guía de entornos heredados y migración](docs/entornos-heredados-y-migracion.md).
 
-Release v1.0 corresponds to the code in the published book, without corrections or updates.
+## Procedencia y alcance
 
-## Contributions
+Este repositorio acompaña a *Physics for Flash Games, Animation, and Simulations* (Adrian Dobre y Dev Ramtal, Apress, 2011). La versión `v1.0` corresponde al código publicado en el libro, sin correcciones ni actualizaciones posteriores.
 
-See the file Contributing.md for more information on how you can contribute to this repository.
+La portada incluida es `9781430236740.jpg`. Los archivos pertenecen a un conjunto educativo publicado por Apress y pueden contener recursos, nombres o rutas propios de la edición original.
+
+## Limitaciones y licencias
+
+El archivo [`LICENSE.txt`](LICENSE.txt) establece una licencia de freeware con las siguientes restricciones principales:
+
+- Copyright de Adrian Dobre y Dev Ramtal.
+- Uso personal, copia y modificación dentro de límites de distribución gratuita y uso justo.
+- Modificaciones y correcciones son alentadas para beneficio de otros usuarios.
+- No se permite reutilizar, modificar o redistribuir el software con fines comerciales.
+- Tampoco se permite reutilizarlo en materiales educativos como libros o artículos sin autorización previa.
+- El software se proporciona sin garantía.
+
+Antes de reutilizar código o recursos, conserva el aviso de licencia y verifica por separado cualquier contenido visual o multimedia que pudiera tener derechos distintos.
+
+## Migración y contribuciones
+
+La migración de los ejemplos debe comenzar por modelar y probar la física antes de reconstruir timelines o interfaces modernas. Las opciones incluyen Haxe/OpenFL, Apache Royale, HTML/Canvas, JavaScript/TypeScript y motores como Phaser, PixiJS o Godot.
+
+La estrategia completa, junto con criterios de aceptación, pruebas, riesgos y hoja de ruta, se encuentra en [`docs/entornos-heredados-y-migracion.md`](docs/entornos-heredados-y-migracion.md).
+
+Las contribuciones deben seguir [`contributing.md`](contributing.md). Conserva el código publicado, describe claramente las correcciones y evita sustituir silenciosamente los archivos históricos por implementaciones modernas.
