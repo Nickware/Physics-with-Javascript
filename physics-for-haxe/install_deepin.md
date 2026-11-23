@@ -13,14 +13,14 @@ El compilador reside de forma segura dentro del contenedor, pero sus comandos se
 ## Guía de Instalación Paso a Paso
 
 ### 1. Preparación del Contenedor
-Si aún no has creado el contenedor de desarrollo basado en Debian, ejecútalo en la terminal de Deepin:
+Si aún no ha creado el contenedor de desarrollo basado en Debian, ejecútarlo en la terminal de Deepin:
 
 ```bash
 distrobox create -i debian:bookworm -n haxe-env
 ```
 
 ### 2. Instalación de Haxe dentro del contenedor
-Entra al entorno aislado e instala Haxe a través del gestor de paquetes de Debian:
+Entrar al entorno aislado e instala Haxe a través del gestor de paquetes de Debian:
 
 ```bash
 # Entrar al búnker
@@ -38,13 +38,13 @@ which haxelib
 exit
 ```
 ### 3. Exportación de Binarios al Anfitrión (Deepin)
-Para que el entorno gráfico de Deepin y tus editores de código (como VS Code o VSCodium) reconozcan los comandos de Haxe, ejecuta lo siguiente desde la terminal nativa del anfitrión:
+Para que el entorno gráfico de Deepin y tus editores de código (como VS Code o VSCodium) reconozcan los comandos de Haxe, ejecutar lo siguiente desde la terminal nativa del anfitrión:
 ```bash
 distrobox-export --bin /usr/bin/haxe --export-path ~/.local/bin
 distrobox-export --bin /usr/bin/haxelib --export-path ~/.local/bin
 ```
 ### 4. Configuración del Entorno de Usuario (.bashrc)
-Asegura el enrutamiento del almacenamiento de paquetes local creando la variable HAXELIB_ROOT. Agrega estas líneas al final de tu archivo ~/.bashrc en el anfitrión:
+Asegurar el enrutamiento del almacenamiento de paquetes local creando la variable HAXELIB_ROOT. Agrega estas líneas al final de tu archivo ~/.bashrc en el anfitrión:
 ```bash
 # Crear el directorio físico para los paquetes de Haxe
 mkdir -p ~/haxelib
@@ -58,7 +58,7 @@ source ~/.bashrc
 ```
 
 ### 5. Inicialización de Haxelib
-Vincula el gestor de paquetes exportado con la ruta física que acabamos de definir ejecutando directamente en Deepin:
+Vincular el gestor de paquetes exportado con la ruta física que acabamos de definir ejecutando directamente en Deepin:
 ```bash
 haxelib setup ~/haxelib
 ```
@@ -66,7 +66,7 @@ haxelib setup ~/haxelib
 ## Prueba de Control (Hola Mundo)
 Para verificar que el acoplamiento entre el anfitrión y el contenedor es transparente y funcional, crea una estructura de pruebas:
 
-### 1. Crea el archivo de código fuente Main.hx:
+### 1. Crear el archivo de código fuente Main.hx:
 ```bash
 class Main {
     static public function main() {
@@ -74,13 +74,13 @@ class Main {
     }
 }
 ```
-### 2. Crea el script de compilación automatizada build.hxml en la misma ubicación:
+### 2. Crear el script de compilación automatizada build.hxml en la misma ubicación:
 ```bash
 -cp .
 -main Main
 --interp
 ```
-### 3. Ejecuta la compilación desde la terminal de Deepin:
+### 3. Ejecutar la compilación desde la terminal de Deepin:
 ```bash
 haxe build.hxml
 ```
